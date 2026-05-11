@@ -1,0 +1,361 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "dd7bffac8cbae2a224c86d15f9d2df26",
+    "entities": [
+      {
+        "tableName": "users",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `email` TEXT NOT NULL, `phone` TEXT NOT NULL, `passwordHash` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passwordHash",
+            "columnName": "passwordHash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "members",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`memberId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `phone` TEXT NOT NULL, `address` TEXT NOT NULL, `aadhaarNumber` TEXT NOT NULL, `joinDate` INTEGER NOT NULL, `weeklyContributionAmount` REAL NOT NULL, `isActive` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "memberId",
+            "columnName": "memberId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "address",
+            "columnName": "address",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "aadhaarNumber",
+            "columnName": "aadhaarNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "joinDate",
+            "columnName": "joinDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weeklyContributionAmount",
+            "columnName": "weeklyContributionAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isActive",
+            "columnName": "isActive",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "memberId"
+          ]
+        }
+      },
+      {
+        "tableName": "savings",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`savingsId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `memberId` INTEGER NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `status` TEXT NOT NULL, `week` INTEGER NOT NULL, `month` INTEGER NOT NULL, `year` INTEGER NOT NULL, FOREIGN KEY(`memberId`) REFERENCES `members`(`memberId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "savingsId",
+            "columnName": "savingsId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "memberId",
+            "columnName": "memberId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "week",
+            "columnName": "week",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "month",
+            "columnName": "month",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "year",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "savingsId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_savings_memberId",
+            "unique": false,
+            "columnNames": [
+              "memberId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_savings_memberId` ON `${TABLE_NAME}` (`memberId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "members",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "memberId"
+            ],
+            "referencedColumns": [
+              "memberId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "loans",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`loanId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `memberId` INTEGER NOT NULL, `loanAmount` REAL NOT NULL, `interestRate` REAL NOT NULL, `startDate` INTEGER NOT NULL, `dueDate` INTEGER NOT NULL, `remainingAmount` REAL NOT NULL, `paidAmount` REAL NOT NULL, `status` TEXT NOT NULL, FOREIGN KEY(`memberId`) REFERENCES `members`(`memberId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "loanId",
+            "columnName": "loanId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "memberId",
+            "columnName": "memberId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanAmount",
+            "columnName": "loanAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interestRate",
+            "columnName": "interestRate",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "startDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueDate",
+            "columnName": "dueDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remainingAmount",
+            "columnName": "remainingAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paidAmount",
+            "columnName": "paidAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "loanId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_loans_memberId",
+            "unique": false,
+            "columnNames": [
+              "memberId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_loans_memberId` ON `${TABLE_NAME}` (`memberId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "members",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "memberId"
+            ],
+            "referencedColumns": [
+              "memberId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "loan_repayments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repaymentId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `loanId` INTEGER NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `notes` TEXT NOT NULL, FOREIGN KEY(`loanId`) REFERENCES `loans`(`loanId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "repaymentId",
+            "columnName": "repaymentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanId",
+            "columnName": "loanId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "repaymentId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_loan_repayments_loanId",
+            "unique": false,
+            "columnNames": [
+              "loanId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_loan_repayments_loanId` ON `${TABLE_NAME}` (`loanId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "loans",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "loanId"
+            ],
+            "referencedColumns": [
+              "loanId"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dd7bffac8cbae2a224c86d15f9d2df26')"
+    ]
+  }
+}
