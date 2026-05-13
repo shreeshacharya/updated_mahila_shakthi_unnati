@@ -19,12 +19,12 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         val currentYear = com.example.updatd_mahila_shakthi.utils.DateUtils.getCurrentYear()
         var pendingCount = 0
         members.forEach { member ->
-            val paidThisWeek = savings.any { 
+            val paidThisWeek = savings.filter { 
                 it.memberId == member.memberId && 
                 it.week == currentWeek && 
                 it.year == currentYear && 
                 it.status == com.example.updatd_mahila_shakthi.data.model.PaymentStatus.PAID 
-            }
+            }.sumOf { it.amount } >= 150.0
             if (!paidThisWeek) pendingCount++
         }
         pendingCount

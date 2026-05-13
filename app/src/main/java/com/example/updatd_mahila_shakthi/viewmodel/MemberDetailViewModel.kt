@@ -52,7 +52,7 @@ class MemberDetailViewModel(application: Application) : AndroidViewModel(applica
             app.savingsRepository.getSavingsByMember(id).map { savings ->
                 val currentWeek = DateUtils.getCurrentWeek()
                 val currentYear = DateUtils.getCurrentYear()
-                val paidThisWeek = savings.any { it.week == currentWeek && it.year == currentYear && it.status == PaymentStatus.PAID }
+                val paidThisWeek = savings.filter { it.week == currentWeek && it.year == currentYear && it.status == PaymentStatus.PAID }.sumOf { it.amount } >= 150.0
                 !paidThisWeek
             }
         } else flowOf(false)

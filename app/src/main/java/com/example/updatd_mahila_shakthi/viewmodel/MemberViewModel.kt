@@ -34,7 +34,7 @@ class MemberViewModel(application: Application) : AndroidViewModel(application) 
         membersList.map { member ->
             val memberSavings = savingsList.filter { it.memberId == member.memberId && it.status == PaymentStatus.PAID }
             val totalSaved = memberSavings.sumOf { it.amount }
-            val paidThisWeek = memberSavings.any { it.week == currentWeek && it.year == currentYear }
+            val paidThisWeek = memberSavings.filter { it.week == currentWeek && it.year == currentYear }.sumOf { it.amount } >= 150.0
             val hasActiveLoan = activeLoansList.any { it.memberId == member.memberId }
 
             MemberStats(member, totalSaved, paidThisWeek, hasActiveLoan)

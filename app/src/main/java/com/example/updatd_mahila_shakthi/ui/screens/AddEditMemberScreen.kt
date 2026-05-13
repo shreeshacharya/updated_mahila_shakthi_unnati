@@ -86,9 +86,15 @@ fun AddEditMemberScreen(
     }
     LaunchedEffect(message) {
         message?.let {
-            snackbarHostState.showSnackbar(it)
-            viewModel.clearMessage()
-            if (it.contains("success")) onNavigateBack()
+            if (it.contains("success")) {
+                val toastMsg = if (it.contains("added")) "new member added" else it
+                android.widget.Toast.makeText(context, toastMsg, android.widget.Toast.LENGTH_SHORT).show()
+                viewModel.clearMessage()
+                onNavigateBack()
+            } else {
+                snackbarHostState.showSnackbar(it)
+                viewModel.clearMessage()
+            }
         }
     }
 
